@@ -49,7 +49,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
   const user = await User.findOne({ email }).select("+password");
 
-  // 2) Check if user existts && password is correct
+  // 2) Check if user exists && password is correct
   if (!user || !(await user.comparePassword(password, user.password)))
     return next(new AppError("Incorrect email or password", 401));
 
@@ -182,11 +182,9 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
   // 1) Get user from collection
-
   const user = await User.findById(req.user._id).select("+password");
 
   // 2) Check if POSTed current password is correct
-
   if (!(await user.comparePassword(req.body.currentPassword, user.password)))
     return next(new AppError("Your current password is wrong.", 401));
 
