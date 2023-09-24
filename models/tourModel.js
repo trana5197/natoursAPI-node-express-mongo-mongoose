@@ -69,7 +69,7 @@ const tourSchema = new mongoose.Schema(
     images: [String],
     createdAt: {
       type: Date,
-      default: Date.now(),
+      default: Date.now,
       select: false,
     },
     startDates: [Date],
@@ -116,6 +116,13 @@ const tourSchema = new mongoose.Schema(
 // VIRTUAL PROPERTIES
 tourSchema.virtual("durationWeeks").get(function () {
   return (this.duration / 7).toFixed(2);
+});
+
+// Virtual Populate
+tourSchema.virtual("reviews", {
+  ref: "Review",
+  foreignField: "tour",
+  localField: "_id",
 });
 
 // DOCUMENT MIDDLEWARE: only runs for .save() and .create() not on .insertMany()
